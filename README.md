@@ -22,7 +22,7 @@ The weights in Pytorch are initialized using LeCun initialization by default and
 
 ### Optimizer
 
-The paper mentions the use of an SGD optimizer with a learning rate scheduler, weight decay and momentum of 0.9. 
+The paper mentions the use of an SGD optimizer with a learning rate scheduler, weight decay and momentum of 0.9. In my notebook, I try with both `tfa.optimizers.SGDW` and `tf.keras.optimizers.SGD` with weight decay for the latter included in the MLP layers as L2 regularization argument.
 
 Batch size however is not imperative and much attention was not given to it.
 
@@ -30,7 +30,11 @@ Batch size however is not imperative and much attention was not given to it.
 
 This section will be updated as I continue with my experiments and thus my notebook.
 
-| architecture description| linear evaulation results |
-| ----------------------- | ------------------------- |
-| 
+| batch size | image size | lr | optimizer | backbone | projection mlp | prediction mlp | epochs | linear evaluation score |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | 
+| 128 | 90 | 0.025 | SGD | resnet50 | 3 mlp with L2 of 1e-4, glorot initializer, rescaled to [-1,1] | 2 mlp with default initializer | 100 | 35.1% |
+| 64 | 90 | 0.0125 | SGD | resnet50 | 3 mlp with l2 of 1e-4, glorot initializer and resnet preprocessing | 2 mlp with glorot initializer | 100 | 46.8% |
+| 64 | 120 | 5e-4 | SGD with constant lr | resnet50 | 3 mlp with l2 of 1e-4,glorot initializer and resnet preprocessing | 2 mlp with glorot initializer | 100 | 65.6% |
+| 64 | 224 | 5e-2 | SGDW with weight decay of 1e-4 | resnet50 V2 | 2 mlp, lecun initializer, resnet v2 preprocessing | 2 mlp, lecun initializer | 200 | 41.2%
+
 
