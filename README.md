@@ -1,6 +1,6 @@
 ![simsiam](https://www.casualganpapers.com/assets/images/simsiam_teaser.png)
 
-SimSiam is one of many self-supervised learning algorithms and thus shares some similaritiies. However, what makes SimSiam different is the fact that it does not rely on negative image pairs, clustering or a memory bank to avoid a degenerating solution. Instead, it cleverly uses a **stop gradient** operation and predictor MLP (an autoencoder structure) to learn semantic representations present in image data to avoid a collapsing solution. 
+SimSiam is one of many self-supervised learning algorithms out there and thus shares some similarities. However, what makes SimSiam different is the fact that it does not rely on negative image pairs, clustering or a memory bank to avoid a degenerating solution. Instead, it cleverly uses a **stop gradient** operation and predictor MLP (an autoencoder structure) to learn semantic representations present in image data to avoid a collapsing solution. 
 
 In this notebook, I document what worked and didn't work for me, in my quest to build a SimSiam architecture in tensorflow following most of the training regimen specified in the original [paper](https://arxiv.org/pdf/2011.10566.pdf). 
 
@@ -34,11 +34,14 @@ This section will be updated as I continue with my experiments and thus my noteb
 
 | batch size | image size | lr | optimizer | backbone | projection mlp | prediction mlp | epochs | linear evaluation score |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | 
-| 128 | 90 | 0.025 | SGD | resnet50 | 3 mlp with L2 of 1e-4, glorot initializer, rescaled to [-1,1] | 2 mlp with default initializer | 100 | 35.1% |
-| 64 | 90 | 0.0125 | SGD | resnet50 | 3 mlp with l2 of 1e-4, glorot initializer and resnet preprocessing | 2 mlp with glorot initializer | 100 | 46.8% |
-| 64 | 120 | 5e-4 | SGD with constant lr | resnet50 | 3 mlp with l2 of 1e-4,glorot initializer and resnet preprocessing | 2 mlp with glorot initializer | 100 | 65.6% |
-| 64 | 224 | 5e-2 | SGDW with weight decay of 1e-4 | resnet50 V2 | 2 mlp, lecun initializer, resnet v2 preprocessing | 2 mlp, lecun initializer | 200 | 41.2% |
-| 64 | 128 | 3e-2 |  SGDW with weight decay of 5e-4 | resnet50 V2 | 3 mlp, glorot initializer, resnet v2 preprocessing | 2 mlp, gloror initializer | 400 | 50.2% | 
-| 64 | 120 | 5e-2 | SGD | resnet50 | 2 mlp with l2 of 1e-4, lecun initializer, resnet preprocessing | 2 mlp, lecun intializer | 400 | 57.2% |
+| 128 | 90 | 0.025 | SGD | resnet50, rescaled to [-1,1] | 3 mlp with L2 of 1e-4, glorot initializer | 2 mlp with default initializer | 100 | 35.1% |
+| 64 | 90 | 0.0125 | SGD | resnet50, resnet preprocessing | 3 mlp with l2 of 1e-4, glorot initializer | 2 mlp with glorot initializer | 100 | 46.8% |
+| 64 | 120 | 5e-4 | SGD with constant lr | resnet50, resnet preprocessing | 3 mlp with l2 of 1e-4,glorot initializer | 2 mlp with glorot initializer | 100 | 65.6% |
+| 64 | 224 | 5e-2 | SGDW with weight decay of 1e-4 | resnet50 V2, resnet v2 preprocessing | 2 mlp, lecun initializer | 2 mlp, lecun initializer | 200 | 41.2% |
+| 64 | 128 | 3e-2 | SGDW with weight decay of 5e-4 | resnet50 V2, resnet v2 preprocessing | 3 mlp, glorot initializer | 2 mlp, gloror initializer | 400 | 50.2% | 
+| 64 | 120 | 5e-4 | SGDW with weight decay of 1e-4 | resnet50 V2, resnet v2 preprocessing | 3 mlp, lecun initializer | 2 mlp, lecun initializer | 400 | 47.5% |
+| 64 | 120 | 5e-2 | SGD | resnet50, resnet preprocessing | 2 mlp with l2 of 1e-4, lecun initializer | 2 mlp, lecun intializer | 400 | 57.2% |
+| 64 | 120 | 5e-2 | SGDW with weight decay of 1e-4 | resnet50, resnet preprocessing | 2 mlp, lecun initializer | 2 mlp, lecun initializer | 400 | 56.2% |
+| 64 | 120 | 5e-4 | SGD with constant lr | resnet50, resnet preprocessing | 3 mlp with l2 of 1e-4, lecun initializer | 2 mlp with l2 of 1e-4, lecun initializer | 400 | 52.6% |
 
 
